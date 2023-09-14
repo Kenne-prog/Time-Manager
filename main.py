@@ -1,12 +1,29 @@
-import tkinter as tk
-from task import Task
-from user import User
-from gui import TaskManagerApp
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QCalendarWidget
+from gui import CustomCalendarWidget  # Import the CustomCalendarWidget class from custom_calendar.py
+
+
+class MainApp(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("Time Manager")
+        self.setGeometry(100, 100, 800, 600)
+
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+
+        layout = QVBoxLayout(central_widget)
+
+        calendar_widget = CustomCalendarWidget()  # Use the custom calendar widget
+        
+        layout.addWidget(calendar_widget)
 
 def main():
-    root = tk.Tk()  # Create the main application window
-    app = TaskManagerApp(root)  # Initialize your Task Manager App within the window
-    root.mainloop()  # Start the Tkinter main event loop
+    app = QApplication(sys.argv)
+    window = MainApp()
+    window.show()
+    sys.exit(app.exec_())
 
 if __name__ == "__main__":
-    main()  # Call the main function to run your application
+    main()
