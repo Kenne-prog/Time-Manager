@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QCalendarWidget, QPushButton, QDialog
-from PyQt5.QtCore import Qt, QDate
-from PyQt5.QtGui import QPainter, QFont, QBrush, QTextCharFormat
+from PyQt5.QtCore import Qt, QDate 
+from PyQt5.QtGui import QPainter, QFont, QBrush, QTextCharFormat, QColor
 from event_creation import EventCreationDialog
 from events import Events
 
@@ -8,17 +8,11 @@ class CustomCalendarWidget(QCalendarWidget):
     def __init__(self):
         super().__init__()
 
-        # Set the font and alignment for day numbers
-
-        # Set the gridVisible property to False to hide days from other months
+        #Sets the calendars appearance
         self.setGridVisible(False)
-
         self.setVerticalHeaderFormat(QCalendarWidget.NoVerticalHeader)
-
         weekend_format = QTextCharFormat()
-        weekend_format.setForeground(QBrush(Qt.black, Qt.SolidPattern))  # Set text color to black
-
-        # Set the format for Saturday and Sunday in the calendar widget
+        weekend_format.setForeground(QBrush(Qt.black, Qt.SolidPattern))
         self.setWeekdayTextFormat(Qt.Saturday, weekend_format)
         self.setWeekdayTextFormat(Qt.Sunday, weekend_format)
 
@@ -30,22 +24,33 @@ class CustomCalendarWidget(QCalendarWidget):
         layout = self.layout()
         layout.addWidget(self.create_event_button)
 
+        #Highlights days
+        self.clicked[QDate].connect(self.dayClicked)
+        self.selected_date = None
+
+    #Handles the day click
+    def dayClicked(self, date):
+        if self.selected_date:
+            self.setSelectedDate(self.selected_date)
+        self.setSelectedDate(date)
+        self.selected_date = date
+
 
     #edit the cells to make it look nicer
     def paintCell(self, painter, rect, date):
         # Check if the date belongs to the current month and year
         if date.month() == self.monthShown() and date.year() == self.yearShown():
-            # Fill the cell with a white background
+            #Sets the default appearance of each day
             painter.fillRect(rect, Qt.white)
-            
             painter.setPen(Qt.black)
-            calendarWidget = QCalendarWidget()
-            
-            # Draw the custom day number in the top-left corner
             painter.drawText(rect, Qt.AlignTop | Qt.AlignLeft, str(date.day()))
-            self.button = QPushButton("+", self)
-            self.button.setGeometry(5,5,5,5)  # Set the button's geometry to cover the entire cell
-            self.button.clicked.connect(lambda _, date=date: self.openEventCreationDialog(date))
+
+        #Highlights the day if selected
+        if date == self.selected_date:
+            highlight_color = QColor(213, 235, 255)
+            painter.fillRect(rect, highlight_color)
+            painter.setPen(Qt.black)
+            painter.drawText(rect, Qt.AlignTop | Qt.AlignLeft, str(date.day()))
             
 
     # opens the dialog box so users can enter information for events
