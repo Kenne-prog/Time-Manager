@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QCalendarWidget
-from gui import CustomCalendarWidget  # Import the CustomCalendarWidget class from custom_calendar.py
-
+from gui import CustomCalendarWidget
+from events import Events
 
 class MainApp(QMainWindow):
     def __init__(self):
@@ -11,6 +11,7 @@ class MainApp(QMainWindow):
         self.setGeometry(100, 100, 800, 600)
 
         central_widget = QWidget()
+        
         self.setCentralWidget(central_widget)
 
         layout = QVBoxLayout(central_widget)
