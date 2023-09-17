@@ -1,5 +1,6 @@
 from PyQt5.QtCore import QDate
 
+#class for events and to manage events
 class Events:
     def __init__(self):
         self.events = []  # Store events as a list of dictionaries
