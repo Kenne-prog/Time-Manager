@@ -5,22 +5,15 @@ class Events:
     def __init__(self):
         self.events = []  # Store events as a list of dictionaries
 
-    def createEvent(self, title, description, start_date, due_date, estimated_time):
-        # Calculate daily time estimate
-        delta = due_date.daysTo(start_date)
-        if delta > 0:
-            daily_estimate = estimated_time / delta
-        else:
-            daily_estimate = estimated_time
+    def create(self, title, description, time_unit, time_duration, start_date, end_date):
 
-        # Create an event dictionary with details
         event = {
             'title': title,
             'description': description,
+            'time_unit': time_unit,
+            'time_duration': time_duration,       
             'start_date': start_date,
-            'due_date': due_date,
-            'estimated_time': estimated_time,
-            'daily_estimate': daily_estimate
+            'end_date': end_date,
         }
 
         self.events.append(event)

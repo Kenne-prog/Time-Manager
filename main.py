@@ -25,11 +25,6 @@ class MainApp(QMainWindow):
         calendar_widget = CustomCalendarWidget(events_data)
         layout.addWidget(calendar_widget)
 
-        self.events = Events()
-
-    def createEvent(self, title, description, start_date, due_date, estimated_time):
-        self.events.createEvent(title, description, start_date, due_date, estimated_time)
-
 
 def main():
     app = QApplication(sys.argv)

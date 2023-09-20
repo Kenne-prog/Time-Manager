@@ -36,6 +36,8 @@ class CustomCalendarWidget(QCalendarWidget):
         # Create the event display dialog
         self.event_display_dialog = EventDisplayDialog(self.events_data)
 
+        self.events = Events()
+
 
     #Handles the day click
     def dayClicked(self, date):
@@ -71,12 +73,19 @@ class CustomCalendarWidget(QCalendarWidget):
             # Handle event creation here (e.g., pass user inputs to createEvent method)
             title = dialog.get_title()
             description = dialog.get_description()
+            time_unit = dialog.get_time_unit()
             start_date = dialog.get_start_date()
-            due_date = dialog.get_due_date()
-            estimated_time = dialog.get_estimated_time()
-            self.createEvent(title, description, start_date, due_date, estimated_time)
+            end_date = dialog.get_end_date()
+            time_duration = dialog.get_time_duration()
+            self.createEvent(title, description, time_unit, time_duration, start_date, end_date)
 
     # Display events for the selected date in the QTextEdit widget
     def displayEvents(self, date):
         self.event_display_dialog.displayEvents(date)
         self.event_display_dialog.show()
+
+    #adds the event to the events
+    def createEvent(self, title, description, time_unit, time_duration, start_date, end_date):
+        self.events.create(title, description, time_unit, time_duration, start_date, end_date)
+
+        
