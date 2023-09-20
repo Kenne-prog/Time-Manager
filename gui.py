@@ -1,11 +1,12 @@
-from PyQt5.QtWidgets import QCalendarWidget, QPushButton, QDialog
+from PyQt5.QtWidgets import QCalendarWidget, QPushButton, QDialog, QListWidget, QTextEdit
 from PyQt5.QtCore import Qt, QDate 
 from PyQt5.QtGui import QPainter, QFont, QBrush, QTextCharFormat, QColor
 from event_creation import EventCreationDialog
 from events import Events
+from events_window import EventDisplayDialog
 
 class CustomCalendarWidget(QCalendarWidget):
-    def __init__(self):
+    def __init__(self, events_data):
         super().__init__()
 
         #Sets the calendars appearance
@@ -28,12 +29,22 @@ class CustomCalendarWidget(QCalendarWidget):
         self.clicked[QDate].connect(self.dayClicked)
         self.selected_date = None
 
+
+        # Store events data
+        self.events_data = events_data
+
+        # Create the event display dialog
+        self.event_display_dialog = EventDisplayDialog(self.events_data)
+
+
     #Handles the day click
     def dayClicked(self, date):
         if self.selected_date:
             self.setSelectedDate(self.selected_date)
         self.setSelectedDate(date)
         self.selected_date = date
+
+        self.displayEvents(date)
 
 
     #edit the cells to make it look nicer
@@ -64,3 +75,8 @@ class CustomCalendarWidget(QCalendarWidget):
             due_date = dialog.get_due_date()
             estimated_time = dialog.get_estimated_time()
             self.createEvent(title, description, start_date, due_date, estimated_time)
+
+    # Display events for the selected date in the QTextEdit widget
+    def displayEvents(self, date):
+        self.event_display_dialog.displayEvents(date)
+        self.event_display_dialog.show()

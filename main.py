@@ -1,5 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QCalendarWidget
+from PyQt5.QtCore import Qt, QDate 
 from gui import CustomCalendarWidget
 from events import Events
 from event_creation import EventCreationDialog
@@ -16,8 +17,12 @@ class MainApp(QMainWindow):
         self.setCentralWidget(central_widget)
 
         layout = QVBoxLayout(central_widget)
-
-        calendar_widget = CustomCalendarWidget()
+        events_data = {
+        QDate(2023, 9, 16): ["Event 1", "Event 2"],
+        QDate(2023, 9, 17): ["Event 3"],
+        # Add more dates and events as needed
+        }
+        calendar_widget = CustomCalendarWidget(events_data)
         layout.addWidget(calendar_widget)
 
         self.events = Events()
