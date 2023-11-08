@@ -28,13 +28,11 @@ class CustomCalendarWidget(QCalendarWidget):
         #Highlights days
         self.clicked[QDate].connect(self.dayClicked)
         self.selected_date = None
-
-
-        # Store events data
+        
         self.events_data = events_data
-
         # Create the event display dialog
         self.event_display_dialog = EventDisplayDialog(self.events_data)
+        
 
         self.events = Events()
 
@@ -46,7 +44,7 @@ class CustomCalendarWidget(QCalendarWidget):
         self.setSelectedDate(date)
         self.selected_date = date
 
-        self.displayEvents(date)
+        self.displayEvents(self.selected_date)
 
 
     #edit the cells to make it look nicer
@@ -65,7 +63,7 @@ class CustomCalendarWidget(QCalendarWidget):
             painter.setPen(Qt.black)
             painter.drawText(rect, Qt.AlignTop | Qt.AlignLeft, str(date.day()))
             
-
+            
     # opens the dialog box so users can enter information for events
     def openEventCreationDialog(self):
         dialog = EventCreationDialog(self)
@@ -87,5 +85,6 @@ class CustomCalendarWidget(QCalendarWidget):
     #adds the event to the events
     def createEvent(self, title, description, time_unit, time_duration, start_date, end_date):
         self.events.create(title, description, time_unit, time_duration, start_date, end_date)
-
+        self.events_data.update({QDate(start_date.year(), start_date.month(), start_date.day()): [title]})
+        
         

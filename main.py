@@ -17,11 +17,9 @@ class MainApp(QMainWindow):
         self.setCentralWidget(central_widget)
 
         layout = QVBoxLayout(central_widget)
-        events_data = {
-        QDate(2023, 9, 16): ["Event 1", "Event 2"],
-        QDate(2023, 9, 17): ["Event 3"],
-        # Add more dates and events as needed
-        }
+
+        events_data = {}
+
         calendar_widget = CustomCalendarWidget(events_data)
         layout.addWidget(calendar_widget)
 
